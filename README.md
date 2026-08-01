@@ -65,6 +65,10 @@ Both datasets must be in the **same projected coordinate system** before you beg
 | Method | Planar |
 | Maximum number of closest matches | `0` (returns all pairs) |
 
+<img width="360" height="558" alt="Generate Near Table" src="https://github.com/user-attachments/assets/8bd1384c-5e18-4990-bc7c-205129fefbdd" />
+
+
+
 > Setting the maximum matches to `0` is important — 2SFCA needs every population-to-facility pair within the catchment, not just the nearest one.
 
 **Alternative:** an OD cost matrix will give network distances rather than Euclidean, which is more realistic for travel. You will need to generate polygon centroids first.
@@ -91,6 +95,11 @@ NEAR_DIST <= 8047
 ```
 
 8047 metres ≈ 5 miles. Export the selection to a new table, `Distance5mi`.
+
+<img width="616" height="373" alt="SelectByAttr" src="https://github.com/user-attachments/assets/22f7e2f6-af8f-4474-9019-688cb5acfba6" />
+
+<img width="392" height="322" alt="ExportTable" src="https://github.com/user-attachments/assets/f484157c-5f5f-47b4-b885-49b63e6aadad" />
+
 
 This implements the two selection conditions in the equation: $d_{ij} \le d_0$ and $d_{kj} \le d_0$.
 
@@ -125,6 +134,9 @@ Add a field `DentPopR` (Double) and calculate:
 DentPopR = 1000 * !Distance5mi.Dentists! / !Dentists5mi.SUM_P001001!
 ```
 
+<img width="512" height="563" alt="CalculateField" src="https://github.com/user-attachments/assets/a5f926f9-fac3-49a8-b551-3fcf8a4325c5" />
+
+
 This computes $S_j / \sum_k D_k$. The 1,000 multiplier expresses the result as providers per 1,000 residents — adjust to suit the density of your study area.
 
 ---
@@ -139,6 +151,9 @@ Remove the joins from `Distance5mi`, then run **Summary Statistics** again:
 | Statistic Type | Sum |
 | Case Field | `IN_FID` |
 | Output Table | `DentAccess5mi` |
+
+<img width="393" height="336" alt="SummaryStat" src="https://github.com/user-attachments/assets/b4a28a94-bd10-4756-9359-75e014611dd2" />
+
 
 `SUM_DentPopR` is the accessibility score $A_i$ for each population location.
 
@@ -158,18 +173,19 @@ Remove the joins from `Distance5mi`, then run **Summary Statistics** again:
 
 Symbolise the tracts by `SUM_DentPopR`. **High values indicate high accessibility; low values indicate low accessibility.**
 
+<img width="762" height="697" alt="Results" src="https://github.com/user-attachments/assets/af0383be-fc5e-4720-a460-37844cc4902d" />
+
+
+*Accessibility score, pediatric dentists per 1,000 persons, Washington DC.*
+
 ---
 
 ## Using the scripted tools
 
 Wang & Liu (2023) provide the whole procedure as ArcGIS script tools, which avoids the manual table work above. Add `Accessibility.tbx` to your ArcGIS toolboxes:
 
-| Tool | Use |
-|------|-----|
-| Two-Step Floating Catchment Area (2SFCA) | Standard 2SFCA, computes distances internally |
-| Two-Step Floating Catchment Area (w External Distance Table) | Use when you already have a distance table |
-| Generalized 2SFCA | Adds a distance decay function |
-| Generalized 2SFCA (w External Distance Table) | As above, with existing distances |
+<img width="342" height="152" alt="ToolBox" src="https://github.com/user-attachments/assets/83fa8d7f-d2e3-4a67-8589-656aac07243b" />
+
 
 **Adjusting the population multiplier:** right-click the script tool → Edit, and locate the calculation block. The `1000.0` factor appears in each branch of the distance decay conditional:
 
