@@ -9,7 +9,7 @@ About this tutorial
 
 This walkthrough adapts the 2SFCA procedure described in Wang & Liu (2023), Computational Methods and GIS Applications in Social Science, Chapter 5. The original procedure has been applied here to a new case study — access to pediatric dental care across Washington, DC census tracts.
 
-Written for ArcGIS Pro, though the workflow translates any GIS package with equivalent geoprocessing tools.
+Written for ArcGIS Pro 3.2, though the workflow translates to ArcMap or any GIS package with equivalent geoprocessing tools.
 
 What 2SFCA measures
 
@@ -19,8 +19,162 @@ The method runs in two passes:
 
 Supply-to-demand ratio at each facility — for every provider, sum the population within the catchment distance and divide provider capacity by that population.
 Accessibility at each population location — for every tract, sum the ratios of all providers within the catchment distance.
-<img width="775" height="115" alt="image" src="https://github.com/user-attachments/assets/9fd99742-d8df-4ae4-a859-bcda6bde400f" />
+𝐴
+𝑖
+=
+∑
+𝑗
+∈
+{
+𝑑
+𝑖
+𝑗
+≤
+𝑑
+0
+}
+𝑅
+𝑗
+=
+∑
+𝑗
+∈
+{
+𝑑
+𝑖
+𝑗
+≤
+𝑑
+0
+}
+(
+𝑆
+𝑗
+∑
+𝑘
+∈
+{
+𝑑
+𝑘
+𝑗
+≤
+𝑑
+0
+}
+𝐷
+𝑘
+)
+A
+i
+	​
 
+=
+j∈{d
+ij
+	​
+
+≤d
+0
+	​
+
+}
+∑
+	​
+
+R
+j
+	​
+
+=
+j∈{d
+ij
+	​
+
+≤d
+0
+	​
+
+}
+∑
+	​
+
+(
+∑
+k∈{d
+kj
+	​
+
+≤d
+0
+	​
+
+}
+	​
+
+D
+k
+	​
+
+S
+j
+	​
+
+	​
+
+)
+
+Where:
+
+Term	Meaning
+
+𝐴
+𝑖
+A
+i
+	​
+
+	Accessibility score at population location i
+
+𝑅
+𝑗
+R
+j
+	​
+
+	Supply-to-demand ratio at facility j
+
+𝑆
+𝑗
+S
+j
+	​
+
+	Supply capacity at facility j (e.g. number of dentists)
+
+𝐷
+𝑘
+D
+k
+	​
+
+	Demand (population) at location k
+
+𝑑
+𝑖
+𝑗
+d
+ij
+	​
+
+	Distance between population i and facility j
+
+𝑑
+0
+d
+0
+	​
+
+	Catchment threshold distance
 Data requirements
 
 Both datasets must be in the same projected coordinate system before you begin.
